@@ -2,7 +2,7 @@ import {Card, Container} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import axios from "axios";
 
-const MyPdf = () => {
+const MyPdfs = () => {
     const [pdfList, setPdfList] = useState([]);
 
     useEffect(() => {
@@ -51,4 +51,4 @@ const MyPdf = () => {
     );
 }
 
-export default MyPdf;
+export default MyPdfs;

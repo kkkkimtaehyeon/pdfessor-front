@@ -2,10 +2,10 @@ import logo from './logo.svg';
 import './App.css';
 import {createBrowserRouter, RouterProvider,} from "react-router-dom";
 import Main from "./pages/Main";
-import NewQuiz from "./pages/NewQuiz";
+import NewTest from "./pages/test/NewTest";
 import Quiz from "./pages/Quiz";
 import UploadPdf from "./pages/pdf/UploadPdf";
-import MyPdf from "./pages/pdf/MyPdf";
+import MyPdfs from "./pages/pdf/MyPdfs";
 
 function App() {
 
@@ -20,7 +20,7 @@ function App() {
         },
         {
             path: "/new",
-            element: <NewQuiz />
+            element: <NewTest />
         },
         {
             path: "/quiz",
@@ -28,7 +28,7 @@ function App() {
         },
         {
             path: "/mypdf",
-            element: <MyPdf />
+            element: <MyPdfs />
         },
         ]
     );

@@ -1,14 +1,28 @@
 import {Card, Col, Container, Row} from "react-bootstrap";
-import {Link, useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {Link} from "react-router-dom";
+import {useEffect, useState} from "react";
+import PdfSelector from "../../component/test/PdfSelector";
+import axios from "axios";
 
-const NewQuiz = () => {
-    const navigate = useNavigate();
+const NewTest = () => {
     const[questionCount, setQuestionCount] = useState(0);
     const [selectedOptions, setSelectedOptions] = useState([]);
-    const[sourceText, setSourceText] = useState('');
-
+    const [pdfs, setPdfs] = useState([]);
     const options = ['ox', 'single', 'multiple', 'subjective'];
+
+    useEffect(() => {
+        axios.get("http://localhost:8000/pdfs")
+            .then((response) => {
+                setPdfs(response.data);
+                console.log(pdfs);
+            })
+            .catch(error => {
+                console.log("PDF 불러오기 실패", error);
+            })
+    }, []);
+
+
+
     const handleRangeChange = (event) => {
         setQuestionCount(parseInt(event.target.value));
     };
@@ -25,7 +39,8 @@ const NewQuiz = () => {
         console.log(selectedOptions);
     }
 
-    const handleCheckboxChange = (option) => {
+    const handleCheckboxChange = (event) => {
+        const option = event.target.htmlFor;
         setSelectedOptions(prevOptions => {
             if (prevOptions.includes(option)) {
                 return prevOptions.filter(item => item !== option);
@@ -33,9 +48,11 @@ const NewQuiz = () => {
                 return [...prevOptions, option];
             }
         });
-
-        console.log(selectedOptions);
     };
+
+    useEffect(() => {
+        console.log(selectedOptions);
+    }, [selectedOptions]);
 
     const goMakeQuiz = () => {
 
@@ -45,25 +62,41 @@ const NewQuiz = () => {
     return (
         <Container>
             <Col className="m-2">
+
                 <Row className="mb-3">
                     <Card className="card-body border-0 bg-light">
-                        <label className="form-label">문제 형식</label>
-                        <div>
-                            <input type="checkbox" className="btn-check" id="ox"/>
-                            <label className="btn btn-outline-primary" htmlFor="ox" onClick={handleCheckboxChange}>O/X</label>
-                            <input type="checkbox" className="btn-check" id="single"/>
-                            <label className="btn btn-outline-primary" htmlFor="single" onClick={handleCheckboxChange}>단답식</label>
-                            <input type="checkbox" className="btn-check" id="multiple"/>
-                            <label className="btn btn-outline-primary" htmlFor="multiple" onClick={handleCheckboxChange}>객관식</label>
-                            <input type="checkbox" className="btn-check" id="subjective"/>
-                            <label className="btn btn-outline-primary" htmlFor="subjective" onClick={handleCheckboxChange}>주관식</label>
-                        </div>
+                        <PdfSelector pdfs={pdfs}/>
+                    </Card>
+                </Row>
+
+                <Row className="mb-3">
+                    <Card className="card-body border-0 bg-light">
+                        <label className="form-label">문제 형식을 선택해주세요.</label>
+                        <Row className="d-flex justify-content-center">
+                            <div className="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                                <input type="checkbox" className="btn-check" id="ox"/>
+                                <label className="btn btn-outline-primary" htmlFor="ox"
+                                       onClick={handleCheckboxChange}>O/X</label>
+
+                                <input type="checkbox" className="btn-check" id="single"/>
+                                <label className="btn btn-outline-primary" htmlFor="single"
+                                       onClick={handleCheckboxChange}>단답식</label>
+
+                                <input type="checkbox" className="btn-check" id="multiple"/>
+                                <label className="btn btn-outline-primary" htmlFor="multiple"
+                                       onClick={handleCheckboxChange}>객관식</label>
+
+                                <input type="checkbox" className="btn-check" id="subjective"/>
+                                <label className="btn btn-outline-primary" htmlFor="subjective"
+                                       onClick={handleCheckboxChange}>주관식</label>
+                            </div>
+                        </Row>
                     </Card>
                 </Row>
                 <Row className="mb-3">
                     <Card className="card-body border-0 bg-light">
                         <label htmlFor="questionCount" className="form-label">
-                            문제 개수: {questionCount}
+                            {questionCount}문항
                         </label>
                         <input
                             type="range"
@@ -77,17 +110,10 @@ const NewQuiz = () => {
                         />
                     </Card>
                 </Row>
-                <Row className="mb-3">
-                    <Card className="card-body border-0 bg-light">
-                    <input type="text" className="form-control" placeholder="텍스트를 입력해주세요."/>
-                    </Card>
-                </Row>
 
-                <Row className="mb-3">
-                    <Card className="card-body border-0 bg-light">
-                        <input type="file" className="form-control" placeholder="파일"/>
-                    </Card>
-                </Row>
+
+
+
                 <Row className="mb-3">
                     <button
                         className="btn btn-lg btn-primary"
@@ -100,4 +126,4 @@ const NewQuiz = () => {
     );
 }
 
-export default NewQuiz;
+export default NewTest;
