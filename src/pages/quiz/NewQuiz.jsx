@@ -1,10 +1,10 @@
 import {Card, Col, Container, Row} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
-import PdfSelector from "../../component/test/PdfSelector";
+import PdfSelector from "../../component/quiz/PdfSelector";
 import axios from "axios";
 
-const NewTest = () => {
+const NewQuiz = () => {
     const[questionCount, setQuestionCount] = useState(0);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [pdfs, setPdfs] = useState([]);
@@ -126,4 +126,4 @@ const NewTest = () => {
     );
 }
 
-export default NewTest;
+export default NewQuiz;
