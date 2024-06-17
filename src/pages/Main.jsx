@@ -15,8 +15,8 @@ const Main = () => {
                 </Row>
                 <Row>
                     <Card className="card-body border-0 bg-light">
-                        <Link to="/new" className="btn btn-primary btn-lg btn-block m-1">퀴즈 등록</Link>
-                        <Link to="/quiz" className="btn btn-primary btn-lg btn-block m-1">내 퀴즈</Link>
+                        <Link to="/new-quiz" className="btn btn-primary btn-lg btn-block m-1">퀴즈 등록</Link>
+                        <Link to="/my-quiz" className="btn btn-primary btn-lg btn-block m-1">내 퀴즈</Link>
                         <button className="btn btn-primary btn-lg btn-block m-1">내 기록</button>
                         <Link to="/upload" className="btn btn-primary btn-lg btn-block m-1">PDF 업로드</Link>
                         <Link to="/mypdf" className="btn btn-primary btn-lg btn-block m-1">내 PDF</Link>
