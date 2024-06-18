@@ -7,6 +7,7 @@ const Quiz = () => {
     const location = useLocation();
     const id = location.state.id;
     const [questions, setQuestions] = useState([]);
+    const [answers, setAnswers] = useState([id]);
 
     useEffect(() => {
         axios.get(`http://localhost:8000/quizzes/${id}`)
@@ -18,6 +19,17 @@ const Quiz = () => {
             });
     }, [id]);
 
+    const handleAnswers = (questionIndex, optionIndex) => {
+        setAnswers(prevAnswers => ({
+            ...prevAnswers,
+            [questionIndex+1]: optionIndex+1
+        }));
+    };
+
+    useEffect(() => {
+        console.log(answers);
+    }, [answers]);
+
     const renderQuestions = () => {
         return questions.map((question, questionIndex) => (
             <Card className="card-body border-0 bg-light mb-3" key={questionIndex}>
@@ -26,15 +38,17 @@ const Quiz = () => {
                 </Card>
                 <Card className="card-body border-0 bg-light-subtle mb-2">
                     {question.options.length > 0 ? (
+                        //객관식
                         question.options.map((option, optionIndex) => {
                             const optionId = `question-${questionIndex}-option-${optionIndex}`;
                             return (
                                 <Card className="card-body border-0 bg-secondary-subtle mb-2" key={optionIndex}>
                                     <input
-                                        type="checkbox"
+                                        type="radio"
                                         className="btn-check"
                                         id={optionId}
-                                        autoComplete="off"
+                                        name={`question-${questionIndex}`}
+                                        onChange={()=>handleAnswers(questionIndex, optionIndex)}
                                     />
                                     <label
                                         className="btn"
@@ -46,8 +60,11 @@ const Quiz = () => {
                                 );
                         })
                     ) : (
+                        // 주관식
                         <Card className="card-body border-0 bg-secondary-subtle mb-2">
-                        <input type="text" className="form-control" placeholder="답을 입력하세요" />
+                        <input type="text"
+                               className="form-control"
+                               placeholder="답을 입력하세요" />
                         </Card>
                     )}
                 </Card>
